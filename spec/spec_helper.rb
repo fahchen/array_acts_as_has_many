@@ -2,6 +2,9 @@ Bundler.require(:default, :development)
 
 require 'array_acts_as_has_many'
 
+#$:.unshift(File.dirname(__FILE__) + '/fixtures')
+Dir[File.dirname(__FILE__) + '/fixtures/*.rb'].each { |f| require f }
+
 RSpec.configure do |config|
   config.expect_with :rspec do |expectations|
     expectations.include_chain_clauses_in_custom_matcher_descriptions = true
@@ -40,12 +43,12 @@ RSpec.configure do |config|
     ActiveRecord::Migration.verbose = false
     ActiveRecord::Schema.define(:version => 1) do
       create_table :zoos, force: :cascade do |t|
-        t.integer  "panda_ids", default: [], array: true
-        t.integer  "monkey_ids", default: [], array: true
+        t.integer  "dog_ids", default: [], array: true
+        t.integer  "cat_ids", default: [], array: true
       end
 
-      create_table :pandas, force: :cascade
-      create_table :monkeys, force: :cascade
+      create_table :dogs, force: :cascade
+      create_table :cats, force: :cascade
     end
 
   end

@@ -1,15 +1,20 @@
 require 'spec_helper'
 
-class Panda < ActiveRecord::Base; end
-class Monkey < ActiveRecord::Base; end
-class Zoo < ActiveRecord::Base
-  array_acts_as_has_many :pandas
-  array_acts_as_has_many :monkeys
-end
-
 describe ArrayActsAsHasMany do
-  it 'returns true' do
-    expect(true).to be_truthy
+  subject { Zoo.new }
+
+  describe '#children' do
+    let(:dogs) { [Dog.create, Dog.create, Dog.create] }
+
+    it 'returns default empty' do
+      expect(subject.dogs).to eq []
+    end
+
+    it 'returns children' do
+      subject.dog_ids = dogs.map(&:id)
+
+      expect(subject.dogs).to eq dogs
+    end
   end
 end
 
