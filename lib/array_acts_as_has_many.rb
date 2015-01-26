@@ -15,6 +15,11 @@ module ArrayActsAsHasMany
       define_method many do
         klass.where(id: send(one_ids))
       end
+
+      define_method "#{many}=" do |collection|
+        send("#{one_ids}=", collection.map(&:id))
+        save
+      end
     end
   end
 
