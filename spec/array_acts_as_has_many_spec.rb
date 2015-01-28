@@ -89,5 +89,19 @@ describe ArrayActsAsHasMany do
       expect(subject.dogs.collect { |dog| dog.id.odd? }).to eq dogs.collect { |dog| dog.id.odd? }
     end
   end
+
+  describe '#reload' do
+    let(:dogs) { [Dog.create, Dog.create, Dog.create] }
+    before :each do
+      subject.dogs
+      subject.dog_ids = dogs.map(&:id)
+      subject.save
+    end
+
+    it 'returns the child_ids' do
+      subject.dogs.reload
+      expect(subject.dogs).to eq dogs
+    end
+  end
 end
 

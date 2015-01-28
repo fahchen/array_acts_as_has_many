@@ -39,6 +39,7 @@ module ArrayActsAsHasMany
     alias_method :count, :size
     alias_method :length, :size
 
+    # Also should be reloaded by target
     def reload
       @load_collection = @klass.where(id: @target.send(@column_name))
     end
