@@ -74,5 +74,20 @@ describe ArrayActsAsHasMany do
       expect(dog.persisted?).to be_truthy
     end
   end
+
+  describe 'enumerable' do
+    let(:dogs) { [Dog.create, Dog.create, Dog.create] }
+    before :each do
+      subject.dogs = dogs
+      subject.reload
+    end
+
+    it 'returns the child_ids' do
+      expect(subject.dogs.map(&:id)).to eq dogs.map(&:id)
+    end
+    it 'returns the odds' do
+      expect(subject.dogs.collect { |dog| dog.id.odd? }).to eq dogs.collect { |dog| dog.id.odd? }
+    end
+  end
 end
 
