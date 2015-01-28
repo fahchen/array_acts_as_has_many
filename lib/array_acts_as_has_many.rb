@@ -13,13 +13,17 @@ module ArrayActsAsHasMany
 
       klass = one.classify.constantize
 
-      define_method many do
-        ArrayActsAsHasMany::AssociationProxy.new(self, klass, one_ids)
+      class_eval do
+        attr_accessor "#{many}_association_proxy"
       end
 
-      define_method "#{many}=" do |collection|
-        send("#{one_ids}=", collection.map(&:id))
-        save
+      define_method many do
+        instance_variable_get("@#{many}_association_proxy") ||
+          instance_variable_set("@#{many}_association_proxy", ArrayActsAsHasMany::AssociationProxy.new(self, klass, one_ids))
+      end
+
+      define_method "#{many}=" do |records|
+        send(many).equal(records)
       end
     end
   end

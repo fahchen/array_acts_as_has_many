@@ -19,6 +19,12 @@ module ArrayActsAsHasMany
       self
     end
 
+    def equal(records)
+      @target.send("#{@column_name}=", records.map(&:id))
+      @target.save
+      self
+    end
+
     def size
       @load_collection.size
     end

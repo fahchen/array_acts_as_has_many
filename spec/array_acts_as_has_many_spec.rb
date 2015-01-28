@@ -3,6 +3,10 @@ require 'spec_helper'
 describe ArrayActsAsHasMany do
   subject { Zoo.create }
 
+  describe 'Responds to' do
+    it { should respond_to(:dogs_association_proxy) }
+  end
+
   describe '#children' do
     let(:dogs) { [Dog.create, Dog.create, Dog.create] }
 
@@ -16,6 +20,14 @@ describe ArrayActsAsHasMany do
       subject.reload
 
       expect(subject.dogs).to eq dogs
+    end
+
+    it 'returns the same object_id' do
+      expect(subject.dogs.object_id).to eq subject.dogs.object_id
+    end
+
+    it 'returns the different object_id' do
+      expect(subject.dogs.object_id).not_to eq subject.dogs.reload.object_id
     end
   end
 
