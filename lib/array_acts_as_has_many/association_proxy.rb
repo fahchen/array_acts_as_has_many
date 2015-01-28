@@ -35,5 +35,15 @@ module ArrayActsAsHasMany
       @load_collection = @klass.where(id: @target.send(@column_name))
     end
 
+    def delete(record)
+      @target.send("#{@column_name}=", (@target.send(@column_name) - [record.id]))
+      @target.save
+      reload
+      self
+    end
+
+    def include?(record)
+      @load_collection.include? record
+    end
   end
 end
