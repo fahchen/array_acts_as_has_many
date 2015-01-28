@@ -1,5 +1,6 @@
 require 'active_record'
 
+require "array_acts_as_has_many/association_proxy"
 require "array_acts_as_has_many/version"
 
 module ArrayActsAsHasMany
@@ -13,7 +14,7 @@ module ArrayActsAsHasMany
       klass = one.classify.constantize
 
       define_method many do
-        klass.where(id: send(one_ids))
+        ArrayActsAsHasMany::AssociationProxy.new(self, klass, one_ids)
       end
 
       define_method "#{many}=" do |collection|

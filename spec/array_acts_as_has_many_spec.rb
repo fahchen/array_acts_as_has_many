@@ -29,5 +29,15 @@ describe ArrayActsAsHasMany do
       expect(subject.dog_ids).to eq dogs.map(&:id)
     end
   end
+
+  describe '#children<<' do
+    let(:dog) { Dog.create }
+
+    it 'adds a child' do
+      expect {
+        subject.dogs << dog
+      }.to change { subject.dog_ids.size }.by(1)
+    end
+  end
 end
 
